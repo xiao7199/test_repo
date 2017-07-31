@@ -3,10 +3,11 @@ import os
 import glob
 import cv2
 import pdb
+import skimage.io
 
-all_folder = ['3286']#,'3289','3229','3230','3231','3232','3233','3234','3235','3236','3237','3238','3239','3240','3241']
+all_folder = ['3286','3289','3229','3230','3231','3232','3233','3234','3235','3236','3237','3238','3239','3240','3241']
 root_folder = '/home/yuanxin/Downloads/viola_detector/labels_for_viola'
-color_table = [(128,0,0),(0,128,0),(128,128,0),(0,0,128),(128,0,128)]
+color_table = [(1,1,1),(2,2,2),(3,3,3),(4,4,4),(5,5,5)]
 ff = open('/home/yuanxin/Desktop/FCN.lst', 'w')
 
 # prepare caffe train list
@@ -62,9 +63,9 @@ for i in all_folder:
         
         # Create a black image
         if(i == '3286' or i == '3289'):
-            img = np.zeros((600,800,3), np.uint8)
+            img = np.zeros((600,800), np.uint8)
         else:
-            img = np.zeros((480,640,3), np.uint8)
+            img = np.zeros((480,640), np.uint8)
         for ii in range(5):
             # Draw a red closed circle
             cv2.circle(img,(sorted_key_point[ii][0],sorted_key_point[ii][1]), 20, color_table[ii], -1)
@@ -75,7 +76,7 @@ for i in all_folder:
         ori_path =  '/Images/' + i + '/'
         ori_name = ori_path + filename + '.jpg'
         
-        cv2.imwrite(root_folder + mask_name, img)
+        skimage.io.imsave(root_folder + mask_name, img)
         line = ori_name + ' ' + mask_name + '\n'
         ff.write(line)
 
