@@ -1,7 +1,6 @@
 from model import *
 from utils import *
 import numpy as np
-import numpy as np
 import torch,pdb
 import torch.nn as nn
 
@@ -26,11 +25,10 @@ param['weight_decay'] = 0.0005
 param['step_size'] = 5000
 param['gamma'] = 0.1
 
-dataloader = Dataloader(param['chunk_size'], param['epoch'], param['data_path'], param['data_folder_name'], param['img_h'],
-			param['img_w'], param['mean_val'], param['mode'])
+dataloader = Dataloader(param)
 train_loader = torch.utils.data.DataLoader(dataset = dataloader,
-                                           batch_size=param['batch_size'], 
-                                           shuffle=True,
+										   batch_size=param['batch_size'], 
+										   shuffle=True,
 										   num_workers=4)
 data_iter = iter(train_loader)
 
