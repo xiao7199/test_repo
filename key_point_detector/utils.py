@@ -2,7 +2,7 @@ import numpy as np
 import torch.utils.data as data
 import glob,os,pdb
 import cv2
-import skimage.misc
+# import skimage.misc
 import torch
 import torch.nn as nn
 from scipy.stats import multivariate_normal
@@ -45,7 +45,7 @@ class Dataloader(data.Dataset):
 		if mode == 'test':
 			self.folder_num = param['test_data_folder_name']
 		self.folder_num = len(self.data_folder)
-		self.label_data_folder = param['label_data_folder']
+		# self.label_data_folder = param['label_data_folder']
 		self.data_index_binbook = np.zeros((self.folder_num+1,1))
 		self.rb_vector = []
 		self.epoch = param['epoch']
@@ -57,9 +57,10 @@ class Dataloader(data.Dataset):
 		self.sigma = param['sigma']
 		self.img_name_list = []
 		temp_index = 0
-		for index, data_folder_nsame in enumerate(data_folder):
-			self.img_name_list[index] = glob.glob(os.path.join\
-				(self.img_data_path,data_folder_name,'*.jpg'))
+		for index, data_folder_name in enumerate(self.data_folder):
+			print index
+			self.img_name_list.append(glob.glob(os.path.join\
+				(self.img_data_path,data_folder_name,'*.jpg')))
 			curr_visual_size =  len(self.img_name_list[index])
 			temp_index += curr_visual_size
 			self.data_index_binbook[index+1] += temp_index
