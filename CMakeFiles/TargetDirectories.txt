@@ -1,0 +1,6 @@
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/CMakeFiles/edit_cache.dir
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/CMakeFiles/rebuild_cache.dir
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/src/CMakeFiles/edit_cache.dir
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/src/CMakeFiles/rebuild_cache.dir
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/src/CMakeFiles/violin_tracker_valgrind.dir
+/Users/Nate/Dropbox/ShiResearch/bitplanes-tracking/src/CMakeFiles/violin_tracker.dir

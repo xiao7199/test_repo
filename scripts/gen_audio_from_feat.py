@@ -13,6 +13,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 from scipy.io.wavfile import write
 import matplotlib.pyplot as plt
+import pdb
 
 def invert_to_sound (specname):
     specinfo = np.load(specname)
@@ -109,11 +110,13 @@ def main():
         X = np.load(specname)
         center = np.load(centername)
         label = max_index
+        label = np.lib.pad(label, (7,7), 'constant', constant_values=(label[0], label[-1]))
+        # interp label
+
         # print X.shape
         # print center.shape
         # print label.shape
-        # import pdb
-        # pdb.set_trace()
+        pdb.set_trace()
         Y = center_to_spec(X[0:len(label)], center, label)
         LabelT = np.transpose(Y)
         print 'LabelT', LabelT.shape
@@ -132,7 +135,7 @@ def main():
         # plt.plot(ori)
         # plt.show()
         # scale the original array to audible sound
-        write(audioname, 16000, ori)
+        write(audioname, 15360, ori)
 
 if __name__ == "__main__":
     main()

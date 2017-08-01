@@ -1,4 +1,5 @@
 # coding: utf-8
+# prepare C3D caffeList and save kmeans data
 import glob, os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -11,6 +12,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 from scipy.io.wavfile import write
 import matplotlib.pyplot as plt
+import pdb 
 
 def invert_to_sound (specname):
     specinfo = np.load(specname)
@@ -70,7 +72,7 @@ kmeans_label_num = {}
 cnt = 0
 combineAll = []
 dir = []
-f = open('../caffe.list', 'w')
+f = open('/home/yuanxin/code/bitplanes-tracking/caffe.list', 'w')
 for file in sorted(glob.glob("*.wav")):
     if cnt == 9:
         break
@@ -104,35 +106,36 @@ for file in sorted(glob.glob("*.wav")):
     combineAll.append(combineT)
     cnt += 1    
 
+cluster_num = 256
 combineAll = np.concatenate(combineAll)
-kmeans = KMeans(n_clusters= 16, random_state=0).fit(combineAll)
+kmeans = KMeans(n_clusters= cluster_num, random_state=0).fit(combineAll)
 # np.savetxt('1.txt', kmeans.labels_)
 center = kmeans.cluster_centers_
-np.save('spec.npy',combineAll)
-np.save('center.npy',kmeans.cluster_centers_)
-np.save('label.npy',kmeans.labels_)
+np.save('/home/yuanxin/code/bitplanes-tracking/spec.npy',combineAll)
+np.save('/home/yuanxin/code/bitplanes-tracking/center.npy',kmeans.cluster_centers_)
+np.save('/home/yuanxin/code/bitplanes-tracking/label.npy',kmeans.labels_)
 # plt.figure()
 # plt.plot(kmeans.labels_)
 # plt.show()
-# import pdb 
 # pdb.set_trace()
 
 offset = 0
+chuck_length = 16
 # create list according video
 for subdir in dir:
     print subdir    
     os.chdir("/home/yuanxin/Downloads/viola_data/image/" + subdir)
     length_image = len(sorted(glob.glob("*.jpg")))
     cnt = 0
-    bias = 0
+    # bias = 0
     for file in sorted(glob.glob("*.jpg")):
         # dir name + start frame + label
-        if cnt > length_image - 16:
+        if cnt > length_image - chuck_length:
             break
-        if cnt % 40  == 0:
-            bias += 1
-        cluster_label = kmeans.labels_[offset + cnt + bias]
+        # chose rainbow_gram sample center as label
+        cluster_label = kmeans.labels_[offset + cnt + chuck_length/2 -1]
         tmp = subdir + ' ' + str(cnt+1) + ' ' + str(cluster_label) + '\n'
         f.write(tmp)
         cnt += 1
+        
     offset += kmeans_label_num[subdir]
